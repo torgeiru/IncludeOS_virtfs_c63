@@ -23,5 +23,3 @@ add_library(c63
 	           io.cpp io.hpp
 	           common.cpp common.hpp
 	           me.cpp me.hpp)
-
-# target_link_libraries(c63enc c63 m)

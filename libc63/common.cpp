@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
-#include "dsp.h"
+#include "common.hpp"
+#include "dsp.hpp"
 
 void dequantize_idct_row(int16_t *in_data, uint8_t *prediction, int w, int h,
     int y, uint8_t *out_data, uint8_t *quantization)
@@ -121,31 +121,31 @@ void destroy_frame(struct frame *f)
 
 struct frame* create_frame(struct c63_common *cm, yuv_t *image)
 {
-  struct frame *f = malloc(sizeof(struct frame));
+  struct frame *f = (struct frame*)malloc(sizeof(struct frame));
 
   f->orig = image;
 
-  f->recons = malloc(sizeof(yuv_t));
-  f->recons->Y = malloc(cm->ypw * cm->yph);
-  f->recons->U = malloc(cm->upw * cm->uph);
-  f->recons->V = malloc(cm->vpw * cm->vph);
+  f->recons = (yuv_t*)malloc(sizeof(yuv_t));
+  f->recons->Y = (uint8_t*)malloc(cm->ypw * cm->yph);
+  f->recons->U = (uint8_t*)malloc(cm->upw * cm->uph);
+  f->recons->V = (uint8_t*)malloc(cm->vpw * cm->vph);
 
-  f->predicted = malloc(sizeof(yuv_t));
-  f->predicted->Y = calloc(cm->ypw * cm->yph, sizeof(uint8_t));
-  f->predicted->U = calloc(cm->upw * cm->uph, sizeof(uint8_t));
-  f->predicted->V = calloc(cm->vpw * cm->vph, sizeof(uint8_t));
+  f->predicted = (yuv_t*)malloc(sizeof(yuv_t));
+  f->predicted->Y = (uint8_t*)calloc(cm->ypw * cm->yph, sizeof(uint8_t));
+  f->predicted->U = (uint8_t*)calloc(cm->upw * cm->uph, sizeof(uint8_t));
+  f->predicted->V = (uint8_t*)calloc(cm->vpw * cm->vph, sizeof(uint8_t));
 
-  f->residuals = malloc(sizeof(dct_t));
-  f->residuals->Ydct = calloc(cm->ypw * cm->yph, sizeof(int16_t));
-  f->residuals->Udct = calloc(cm->upw * cm->uph, sizeof(int16_t));
-  f->residuals->Vdct = calloc(cm->vpw * cm->vph, sizeof(int16_t));
+  f->residuals = (dct_t*)malloc(sizeof(dct_t));
+  f->residuals->Ydct = (int16_t*)calloc(cm->ypw * cm->yph, sizeof(int16_t));
+  f->residuals->Udct = (int16_t*)calloc(cm->upw * cm->uph, sizeof(int16_t));
+  f->residuals->Vdct = (int16_t*)calloc(cm->vpw * cm->vph, sizeof(int16_t));
 
   f->mbs[Y_COMPONENT] =
-    calloc(cm->mb_rows * cm->mb_cols, sizeof(struct macroblock));
+    (struct macroblock*)calloc(cm->mb_rows * cm->mb_cols, sizeof(struct macroblock));
   f->mbs[U_COMPONENT] =
-    calloc(cm->mb_rows/2 * cm->mb_cols/2, sizeof(struct macroblock));
+    (struct macroblock*)calloc(cm->mb_rows/2 * cm->mb_cols/2, sizeof(struct macroblock));
   f->mbs[V_COMPONENT] =
-    calloc(cm->mb_rows/2 * cm->mb_cols/2, sizeof(struct macroblock));
+    (struct macroblock*)calloc(cm->mb_rows/2 * cm->mb_cols/2, sizeof(struct macroblock));
 
   return f;
 }

@@ -1,3 +1,4 @@
+#include <os>
 #include <assert.h>
 #include <errno.h>
 #include <getopt.h>
@@ -7,12 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c63.h"
-#include "c63_write.h"
-#include "common.h"
-#include "io.h"
-#include "me.h"
-#include "tables.h"
+#include "c63.hpp"
+#include "c63_write.hpp"
+#include "common.hpp"
+#include "io.hpp"
+#include "me.hpp"
+#include "tables.hpp"
 
 /* Decode VLC token */
 static uint8_t get_vlc_token(struct entropy_ctx *c, uint16_t *table,
@@ -435,12 +436,16 @@ static void print_help(int argc, char **argv)
   exit(EXIT_FAILURE);
 }
 
-int main(int argc, char **argv)
+int main(/*int argc, char **argv*/)
 {
-  if(argc < 3 || argc > 3) { print_help(argc, argv); }
+  // if(argc < 3 || argc > 3) { print_help(argc, argv); }
 
-  FILE *fin = fopen(argv[1], "rb");
-  FILE *fout = fopen(argv[2], "wb");
+  // TODO: Use fmemopen here for DAX
+  // TOOD: Figure out what todo when using sync/async multiple frames in flight
+  // FILE *fin = fopen(argv[1], "rb");
+  // FILE *fout = fopen(argv[2], "wb");
+  FILE *fin = fopen("VirtioFS0/west_wind_easy_1920x1080_420.c63", "rb");
+  FILE *fout = fopen("VirtioFS0/west_wind_easy_1920x1080_420.yuv", "wb");
 
   if (!fin || !fout)
   {
@@ -448,7 +453,7 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  struct c63_common *cm = calloc(1, sizeof(*cm));
+  struct c63_common *cm = (struct c63_common*) calloc(1, sizeof(*cm));
   cm->e_ctx.fp = fin;
 
   int framenum = 0;

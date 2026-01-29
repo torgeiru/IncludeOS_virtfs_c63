@@ -1,5 +1,8 @@
 # Contents
 
-1. libc63 (common across encoder and decoder applications)
-2. c63encoder
-3. c63decoder
+1. libc63
+2. c63decoder
+
+## Optimizations
+
+1. Using a stack allocator

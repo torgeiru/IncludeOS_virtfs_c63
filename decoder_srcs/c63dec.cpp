@@ -436,16 +436,10 @@ static void print_help(int argc, char **argv)
   exit(EXIT_FAILURE);
 }
 
-int main(/*int argc, char **argv*/)
+int main()
 {
-  // if(argc < 3 || argc > 3) { print_help(argc, argv); }
-
-  // TODO: Use fmemopen here for DAX
-  // TOOD: Figure out what todo when using sync/async multiple frames in flight
-  // FILE *fin = fopen(argv[1], "rb");
-  // FILE *fout = fopen(argv[2], "wb");
-  FILE *fin = fopen("VirtioFS0/west_wind_easy_1920x1080_420.c63", "rb");
-  FILE *fout = fopen("VirtioFS0/west_wind_easy_1920x1080_420.yuv", "wb");
+  FILE *fin = fopen("VirtioFS0/wwe.c63", "rb");
+  FILE *fout = fopen("VirtioFS0/wwe2.yuv", "wb");
 
   if (!fin || !fout)
   {
@@ -464,6 +458,8 @@ int main(/*int argc, char **argv*/)
     parse_c63_frame(cm);
     decode_c63_frame(cm, fout);
   }
+
+  fflush(fout);
 
   fclose(fin);
   fclose(fout);

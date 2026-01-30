@@ -12,11 +12,6 @@ project(Codec63
 # Use the C standard from 2011. No effect on Windows (Visual Studio ignores
 set(CMAKE_CXX_EXTENSIONS ON) # definitely use GNU extensions (actually default)
 
-# Overwrite default -O3 flag for Release mode
-# set(CMAKE_C_FLAGS_RELEASE "-O1 -fno-tree-vectorize")
-
-set(CMAKE_BUILD_TYPE Release)
-
 add_library(c63
             STATIC dsp.cpp dsp.hpp
 	           tables.cpp tables.hpp

@@ -8,6 +8,7 @@ find_package(IncludeOS REQUIRED)
 include(os)
 
 # Custom stuff
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(BINARY_NAME c63dec)
 set(ELF_TARGET ${BINARY_NAME}${ELF_POSTFIX})
 
